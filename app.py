@@ -1,9 +1,18 @@
 from flask import Flask, render_template
-from app_blueprint import app_blueprint
-
 
 app = Flask(__name__)
-app.register_blueprint(app_blueprint)
+
+
+@app.route('/')
+def index():
+
+    return render_template('index.html')
+
+
+@app.route("/set-schedule")
+def setSchedule():
+
+    return render_template('setSchedule.html')
 
 
 if __name__ == '__main__':

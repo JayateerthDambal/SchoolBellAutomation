@@ -19,13 +19,13 @@
 <body>
     <nav>
         <div class="nav-bar">
-            <i class='bx bx-menu sidebarOpen'></i>
-            <span class="logo navLogo"><a href="#">School Bell</a></span>
+            <i class='fa fa-bars sidebarOpen'></i>
+            <span class="logo navLogo"><a href="/">School Bell</a></span>
 
             <div class="menu">
                 <div class="logo-toggle">
                     <span class="logo"><a href="#">School Bell</a></span>
-                    <i class='bx bx-x siderbarClose'></i>
+                    <i class='fa fa-xmark siderbarClose'></i>
                 </div>
 
                 <ul class="nav-links">
@@ -86,10 +86,13 @@
                 nav.classList.remove("active");
             }
         });
-
         function updateDateTime() {
             const now = new Date();
-            const dateTimeString = now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true }) + ' - ' + now.toLocaleDateString();
+            const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const dayName = daysOfWeek[now.getDay()];
+            const timeString = now.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+
+            const dateTimeString = dayName + ' - ' + timeString;
             document.getElementById('dateTime').textContent = dateTimeString;
         }
 
