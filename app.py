@@ -9,8 +9,24 @@ import requests
 import pandas as pd
 import time
 from datetime import datetime
+import pyttsx3
+import pygame
+import sys
 
 app = Flask(__name__)
+
+engine = pyttsx3.init()
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'csv'}
@@ -20,6 +36,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 observation_thread = None
 should_observe = False
 schedule_data = None
+SOUNDS_FOLDER = resource_path('sounds')
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
@@ -35,6 +52,25 @@ def init_db():
         ''')
 
 
+def play_sound(sound_file):
+    """ Play the sound file """
+    sound_path = resource_path(os.path.join(
+        'sounds', sound_file))  # Correct the path
+    pygame.mixer.init()
+    pygame.mixer.music.load(sound_path)
+    pygame.mixer.music.play()
+    while pygame.mixer.music.get_busy() == True:
+        continue
+
+
+def announce_command(command):
+    """ Convert text to speech """
+    engine.setProperty('rate', 120)
+    engine.setProperty('pitch', 110)
+    engine.say(command)
+    engine.runAndWait()
+
+
 def load_schedule():
     global schedule_data
     conn = sqlite3.connect("school_bell.db")
@@ -47,19 +83,26 @@ def load_schedule():
         filename = row[0]
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         schedule_data = pd.read_csv(file_path)
+        schedule_data['Time'] = pd.to_datetime(
+            schedule_data['Time'], format='%H:%M:%S').dt.strftime('%H:%M')
 
 
 def observe_time():
     global schedule_data, should_observe
     while should_observe:
         if schedule_data is not None:
-            now = datetime.now().strftime("%H:%M")  # Adjust the format as needed
+            now = datetime.now().strftime("%H:%M")
+            print(f"now: {now}")
+            print(f"schedule_data: {schedule_data}")
             for _, row in schedule_data.iterrows():
                 if row['Time'] == now:
-                    print(row['Command'])  # Replace with actual action
-            time.sleep(60)  # Check every minute
+                    bell_file = os.path.join(SOUNDS_FOLDER, row['Bell'])
+                    play_sound(bell_file)
+                    announce_command(row['Command'])
+                    print(row['Command'])
+            time.sleep(30)
         else:
-            time.sleep(10)  # Wait before checking the schedule again
+            time.sleep(10)
     print("Observation thread stopped.")
 
 
@@ -192,17 +235,27 @@ def create_gui():
     icon_path = os.path.join(os.path.dirname(__file__), 'bell.ico')
     root.iconbitmap(icon_path)
 
+    status_label = tk.Label(root, text="Status: Not Observing", bg='azure')
+    status_label.grid(row=1, column=1, padx=10, pady=10)
+
+    def update_status(message):
+        status_label.config(text=f"Status: {message}")
+
+    def start_observing_and_update_status():
+        start_observing()
+        update_status("Observation Started")
+
     start_button = tk.Button(root, text="Start Flask",
                              command=start_flask, bg='SpringGreen2', fg='white')
     start_button.grid(row=0, column=0, padx=10, pady=10)
 
     start_observing_button = tk.Button(
-        root, text="Start Observing", command=start_observing, bg='royal blue', fg='white')
-    start_observing_button.grid(row=1, column=0, padx=10, pady=10)
+        root, text="Start Observing", command=start_observing_and_update_status, bg='royal blue', fg='white')
+    start_observing_button.grid(row=0, column=2, padx=10, pady=10)
 
     exit_button = tk.Button(root, text="Exit", command=lambda: exit_app(
         root), bg='firebrick3', fg='white')
-    exit_button.grid(row=2, column=0, padx=10, pady=10)
+    exit_button.grid(row=2, column=1, padx=10, pady=10)
 
     root.mainloop()
 
