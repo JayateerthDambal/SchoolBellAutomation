@@ -2,9 +2,11 @@
 
 
 {% block content %}
-    <h2>Welcome User</h2>
+<h2>Welcome User</h2>
+<div class="container upload-box">
     <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
+        <input class="btn" type="file" name="file">
+        <input type="submit" class="btn btn-primary" value="Upload">
     </form>
+</div>
 {% endblock content %}

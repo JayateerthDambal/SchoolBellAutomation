@@ -63,10 +63,24 @@ def play_sound(sound_file):
         continue
 
 
-def announce_command(command):
-    """ Convert text to speech """
-    engine.setProperty('rate', 120)
-    engine.setProperty('pitch', 110)
+def announce_command(command, voice_gender):
+    """ Convert text to speech with specified voice gender """
+    voices = engine.getProperty('voices')
+    selected_voice = None
+
+    for voice in voices:
+        if voice_gender.lower() == 'male' and 'david' in voice.name.lower():
+            selected_voice = voice.id
+            break
+        elif voice_gender.lower() == 'female' and 'zira' in voice.name.lower():
+            selected_voice = voice.id
+            break
+
+    if selected_voice:
+        engine.setProperty('voice', selected_voice)
+    else:
+        print("Requested voice not found. Using default voice.")
+
     engine.say(command)
     engine.runAndWait()
 
@@ -98,9 +112,9 @@ def observe_time():
                 if row['Time'] == now:
                     bell_file = os.path.join(SOUNDS_FOLDER, row['Bell'])
                     play_sound(bell_file)
-                    announce_command(row['Command'])
+                    announce_command(row['Command'], row['Voice'])
                     print(row['Command'])
-            time.sleep(30)
+            time.sleep(40)
         else:
             time.sleep(10)
     print("Observation thread stopped.")
@@ -178,7 +192,7 @@ def upload_file():
             "INSERT INTO schedules (filename) VALUES (?)", (filename,))
         conn.commit()
 
-    return redirect(url_for('index'))
+    return redirect(url_for('display_csv'))
 
 
 @app.route('/start-observing')
@@ -262,4 +276,5 @@ def create_gui():
 
 if __name__ == '__main__':
     init_db()
-    create_gui()
+    # create_gui()
+    app.run(debug=True)

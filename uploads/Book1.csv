@@ -1,9 +1,9 @@
-﻿Time,Command,Bell
-22:45:00,First Period is Complete,announcement.wav
-22:47:00,Second Period is completed,school_bell.wav
-22:49:00,Second Period is completed,school_bell.wav
-00:40:00,Second Period is completed,school_bell.wav
-01:40:00,Second Period is completed,school_bell.wav
-02:40:00,Second Period is completed,school_bell.wav
-03:40:00,Second Period is completed,school_bell.wav
-04:40:00,Second Period is completed,school_bell.wav
+﻿Time,Command,Bell,Voice
+19:33:00,First Period is Complete,announcement.wav,Male
+19:35:00,Second Period is completed,school_bell.wav,Female
+19:36:00,Second Period is completed,school_bell.wav,Female
+00:40:00,Second Period is completed,school_bell.wav,Female
+01:40:00,Second Period is completed,school_bell.wav,Female
+02:40:00,Second Period is completed,school_bell.wav,Female
+03:40:00,Second Period is completed,school_bell.wav,Female
+04:40:00,Second Period is completed,school_bell.wav,Female
