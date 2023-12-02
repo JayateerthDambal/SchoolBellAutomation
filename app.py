@@ -243,7 +243,7 @@ def exit_app(root):
 
 def create_gui():
     root = tk.Tk()
-    root.title("Flask App Control")
+    root.title("New Generation Innovative School")
     root.geometry("300x150")
     root.configure(bg='azure')
     icon_path = os.path.join(os.path.dirname(__file__), 'bell.ico')
@@ -253,11 +253,19 @@ def create_gui():
     status_label.grid(row=1, column=1, padx=10, pady=10)
 
     def update_status(message):
-        status_label.config(text=f"Status: {message}")
+        def update():
+            status_label.config(text=f"Status: {message}")
+        root.after(0, update)
 
     def start_observing_and_update_status():
-        start_observing()
-        update_status("Observation Started")
+        global observation_thread
+        if observation_thread is None or not observation_thread.is_alive():
+            observation_thread = threading.Thread(
+                target=observe_time, daemon=True)
+            observation_thread.start()
+            update_status("Observation Started")
+        else:
+            update_status("Observation already in progress")
 
     start_button = tk.Button(root, text="Start Flask",
                              command=start_flask, bg='SpringGreen2', fg='white')
@@ -265,7 +273,7 @@ def create_gui():
 
     start_observing_button = tk.Button(
         root, text="Start Observing", command=start_observing_and_update_status, bg='royal blue', fg='white')
-    start_observing_button.grid(row=0, column=2, padx=10, pady=10)
+    start_observing_button.grid(row=0, column=1, padx=10, pady=10)
 
     exit_button = tk.Button(root, text="Exit", command=lambda: exit_app(
         root), bg='firebrick3', fg='white')
@@ -276,5 +284,5 @@ def create_gui():
 
 if __name__ == '__main__':
     init_db()
-    # create_gui()
-    app.run(debug=True)
+    create_gui()
+    # app.run(debug=True)

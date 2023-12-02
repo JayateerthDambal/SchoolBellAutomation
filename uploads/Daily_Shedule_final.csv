@@ -1,12 +1,12 @@
 Time,Command,Bell
-8:15:00,"Good morning, everyone ! Please move to the Assembly ground.",school_bell.wav
-8:16:00,"A very good morning, to all of you !! Let us brgin our Assembly.",school_bell.wav
-8:28:00,QUIZ TIME STUDENTS !! From your respective groups.,school_bell.wav
-8:35:00,Quiz Time finishes. Please leave the ground as early as possible,school_bell.wav
-8:36:00,"Students, It's your ACTIVITY TIME !! Enjoy your creative learning",school_bell.wav
-9:20:00,Hello Everyone !! Its your Break fast time. Enjoy your healthy food and get refreshed too!!,school_bell.wav
-9:44:00,"New Generation, your Breakfast time finishes. Please rush back to your classrooms.",school_bell.wav
-9:45:00,New Generation !! Here starts your first period.,school_bell.wav
+08:15:00,"Good morning, everyone ! Please move to the Assembly ground.",school_bell.wav
+08:16:00,"A very good morning, to all of you !! Let us brgin our Assembly.",school_bell.wav
+08:28:00,QUIZ TIME STUDENTS !! From your respective groups.,school_bell.wav
+08:35:00,Quiz Time finishes. Please leave the ground as early as possible,school_bell.wav
+08:36:00,"Students, It's your ACTIVITY TIME !! Enjoy your creative learning",school_bell.wav
+09:20:00,Hello Everyone !! Its your Break fast time. Enjoy your healthy food and get refreshed too!!,school_bell.wav
+09:44:00,"New Generation, your Breakfast time finishes. Please rush back to your classrooms.",school_bell.wav
+09:45:00,New Generation !! Here starts your first period.,school_bell.wav
 10:25:00,New Generation !! Its time to second period. Please change your teaching and learning process,school_bell.wav
 11:05:00,New Generation !! Now its your recess time. Quickly get refreshed,school_bell.wav
 11:19:00,New Generation !! Recess time finishes. Please rush back to your classrooms.,school_bell.wav
@@ -17,6 +17,5 @@ Time,Command,Bell
 13:05:00,New Generation !! Here starts your fifth period.,school_bell.wav
 13:45:00,New Generation !! Its time to sixth period. Please change your teaching and learning process,school_bell.wav
 14:23:00,Students !! Please stand in attention position,school_bell.wav
-14:25,New Generation !! School closes for today. Now your practice time begins,school_bell.wav
 15:43:00,Students !! Please stand in attention position,school_bell.wav
 15:45:00,Bye Bye Students. Its time to go home. Hope you have enjoyed learning. See - you again.,school_bell.wav
